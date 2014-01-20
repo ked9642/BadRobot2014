@@ -1,23 +1,28 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.badrobot.subsystems;
 
+import com.badrobot.OI;
 import com.badrobot.RobotMap;
+import com.badrobot.commands.Shoot;
 import com.badrobot.subsystems.interfaces.IShooter;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  *
- * @author Kyle
+ * @author Isaac
  */
 public class Shooter extends BadSubsystem implements IShooter
 {
     private static Shooter instance;
     
-    
+    Solenoid engageSolenoid, disengageSolenoid;
+    SpeedController winch;
     
     public static Shooter getInstance()
     {
@@ -28,42 +33,43 @@ public class Shooter extends BadSubsystem implements IShooter
         return instance;
     }
     
+    private Shooter()
+    {
+        
+    }
+    
     protected void initialize() 
     {
-        if(!RobotMap.isPrototype)
-        {
-            
-        }else
-        {
-            
-        }
+        winch = new Talon(RobotMap.winchController);
+        engageSolenoid = new Solenoid(RobotMap.engageWinchSolenoid);
+        disengageSolenoid = new Solenoid(RobotMap.disengageWinchSolenoid);
     }
 
     public String getConsoleIdentity() 
     {
         return "Shooter";
-    
     }
 
     protected void initDefaultCommand() 
     {
-    
+        this.setDefaultCommand(new Shoot());
     }
 
-    public void launch() 
+    public void cockBack(double speed) 
     {
-    
-    }
-    
-    
-    public void cock() 
-    {
-        
+        winch.set(-speed);   
     }
 
-    public int getShooterAngle() 
+    public void disengageWinch() 
     {
-        return 1;
+        engageSolenoid.set(false);
+        disengageSolenoid.set(true);
+    }
+    
+    public void engageWinch()
+    {
+        disengageSolenoid.set(false);
+        engageSolenoid.set(true);
     }
     
 }

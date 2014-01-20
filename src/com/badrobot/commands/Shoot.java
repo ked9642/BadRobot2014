@@ -1,48 +1,69 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.badrobot.commands;
 
+import com.badrobot.OI;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
- * @author Kyle
+ * @author Isaac
  */
 public class Shoot extends BadCommand
 {
-    int notchesPassed;
-    
+    private static double COCK_BACK_SPEED = 0.5;
+
     public Shoot()
     {
         requires((Subsystem) shooter);
     }
-    protected void initialize() {
-        
+    
+    protected void initialize() 
+    {
+        shooter.engageWinch();
     }
 
-    public String getConsoleIdentity() {
+    public String getConsoleIdentity() 
+    {
         return "Shoot";
     }
 
-    protected void execute() {
+    protected void execute() 
+    {
+        if (OI.primaryController.isAButtonPressed())
+        {
+            shooter.cockBack(COCK_BACK_SPEED);
+        }
+        else
+        {
+            shooter.cockBack(0);
+        }
         
+        if (OI.primaryController.isBButtonPressed())
+        {
+            shooter.disengageWinch();
+        }
+        else
+        {
+            shooter.engageWinch();
+        }
     }
 
-    protected boolean isFinished() {
+    protected boolean isFinished() 
+    {
         return false;
     }
 
-    protected void end() {
+    protected void end() 
+    {
         
     }
 
-    protected void interrupted() {
+    protected void interrupted() 
+    {
         
     }
-    
     
 }

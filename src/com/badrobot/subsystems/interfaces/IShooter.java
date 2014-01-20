@@ -1,29 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.badrobot.subsystems.interfaces;
 
 /**
  *
- * @author Kyle
+ * @author Kevin
  */
-public interface IShooter
+public interface IShooter 
 {
-    /**
-     * releases the shooter
-     */
-    public void launch();
+    public void cockBack(double speed);
     
-    /**
-     * pulls shooter back, prepares for launch
-     */
-    public void cock();
+    public void disengageWinch();
     
-    /** 
-     * @return Returns the angle of the shooter during cocking 
-     */
-    public int getShooterAngle();
+    public void engageWinch();
 }
